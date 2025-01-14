@@ -6,7 +6,7 @@ export async function POST(request) {
     
     const CLIENT_ID = process.env.NEXT_PUBLIC_ASANA_CLIENT_ID;
     const CLIENT_SECRET = process.env.ASANA_CLIENT_SECRET;
-    const REDIRECT_URI = 'http://localhost:3000/auth/callback';
+    const REDIRECT_URI = 'https://asana-tasks-to-pdf.vercel.app/auth/callback';
 
     const response = await fetch('https://app.asana.com/-/oauth_token', {
       method: 'POST',
