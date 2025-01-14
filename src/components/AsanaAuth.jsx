@@ -8,7 +8,7 @@ const AsanaAuth = ({ onAuthComplete }) => {
   const [authError, setAuthError] = useState('');
   
   const CLIENT_ID = process.env.NEXT_PUBLIC_ASANA_CLIENT_ID;
-  const REDIRECT_URI = 'http://localhost:3000/auth/callback';
+  const REDIRECT_URI = 'https://asana-tasks-to-pdf.vercel.app/auth/callback';
 
   useEffect(() => {
     // Check if we have an access token in localStorage
