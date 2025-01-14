@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Build directory
+build/
+dist/
+
+# macOS system files
+.DS_Store
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Logs
+*.log
