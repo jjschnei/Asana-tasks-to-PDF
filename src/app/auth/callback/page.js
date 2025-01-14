@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function CallbackPage() {
+function CallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -22,7 +22,8 @@ export default function CallbackPage() {
       .then(response => response.json())
       .then(data => {
         if (data.access_token) {
-          localStorage.setItem('asana_access_token', data.access_token);
+          // Use window.localStorage to avoid SSR issues
+          window.localStorage.setItem('asana_access_token', data.access_token);
           router.push('/');
         } else {
           console.error('No access token received:', data);
@@ -37,7 +38,7 @@ export default function CallbackPage() {
       console.error('No code received from Asana');
       router.push('/?error=no_code');
     }
-  }, []);
+  }, [searchParams, router]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -46,5 +47,13 @@ export default function CallbackPage() {
         <p className="text-gray-600">Please wait while we complete the authentication process.</p>
       </div>
     </div>
+  );
+}
+
+export default function CallbackPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CallbackContent />
+    </Suspense>
   );
 }
