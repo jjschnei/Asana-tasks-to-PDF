@@ -17,16 +17,24 @@ const AsanaAuth = ({ onAuthComplete }) => {
       console.log('Found existing token');
       setIsAuthenticated(true);
       onAuthComplete(token);
+      return;
+    }
+
+    // Check for authorization code in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (code) {
+      exchangeCodeForToken(code);
+      return;
     }
 
     // Check for errors in URL
-    const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
     if (error) {
       console.error('Auth error:', error);
       setAuthError(`Authentication error: ${error}`);
     }
-  }, []);
+  }, [onAuthComplete, CLIENT_ID]);
 
   const initiateAuth = () => {
     if (!CLIENT_ID) {
@@ -48,6 +56,10 @@ const AsanaAuth = ({ onAuthComplete }) => {
         },
         body: JSON.stringify({ code }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
       if (data.access_token) {

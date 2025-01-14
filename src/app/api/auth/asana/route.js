@@ -8,6 +8,8 @@ export async function POST(request) {
     const CLIENT_SECRET = process.env.ASANA_CLIENT_SECRET;
     const REDIRECT_URI = 'https://asana-tasks-to-pdf.vercel.app/auth/callback';
 
+    console.log('Using redirect URI:', REDIRECT_URI);
+
     const response = await fetch('https://app.asana.com/-/oauth_token', {
       method: 'POST',
       headers: {
